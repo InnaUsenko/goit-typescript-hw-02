@@ -1,5 +1,13 @@
-import css from './ImageGalleryItem.module.css';
-export const ImageGalleryItem = props => {
+import css from "./ImageGalleryItem.module.css";
+import { FC } from "react";
+
+interface ImageGalleryItemProps {
+  id: string;
+  src: string;
+  alt: string;
+  showModal: Function;
+}
+export const ImageGalleryItem: FC<ImageGalleryItemProps> = (props) => {
   return (
     <li className={css.imageGalleryItem}>
       <img

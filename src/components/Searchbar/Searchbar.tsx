@@ -17,7 +17,7 @@ export const Searchbar = (props: ISearchbarProps) => {
 
   const hendleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    console.log("val " + value);
+    setSearchQuery(value);
   };
 
   return (

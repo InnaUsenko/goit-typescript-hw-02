@@ -1,19 +1,25 @@
-import React, { useEffect } from 'react';
-import css from './Modal.module.css';
-export const Modal = props => {
+import { FC, useEffect } from "react";
+import css from "./Modal.module.css";
+
+interface ModalProps {
+  src: string;
+  alt: string;
+  closeModal: Function;
+}
+export const Modal: FC<ModalProps> = (props) => {
   useEffect(() => {
-    const escFunction = event => {
-      if (event.key === 'Escape') {
+    const escFunction = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
         props.closeModal();
       }
     };
     //componentDidMount()
-    document.addEventListener('keydown', escFunction, false);
-    console.log('addEventListener');
+    document.addEventListener("keydown", escFunction, false);
+    console.log("addEventListener");
     return () => {
       //componentWillUnmount()
-      document.removeEventListener('keydown', escFunction, false);
-      console.log('removeEventListener');
+      document.removeEventListener("keydown", escFunction, false);
+      console.log("removeEventListener");
     };
   }, [props]);
 

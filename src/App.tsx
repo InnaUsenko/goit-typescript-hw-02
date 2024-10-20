@@ -20,6 +20,9 @@ function App() {
     id: "0",
     url: null,
     alt: "no image",
+    webformatURL: "",
+    largeImageURL: "",
+    tags: [],
   });
   const [error, setError] = useState(null);
 
@@ -31,7 +34,14 @@ function App() {
     setIsLoading(false);
     setIsLoadMore(false);
     setIsModalShow(false);
-    setPict({ id: "0", url: null, alt: "no image" });
+    setPict({
+      id: "0",
+      url: null,
+      alt: "no image",
+      webformatURL: "",
+      largeImageURL: "",
+      tags: [],
+    });
     setError(null);
   };
 
@@ -40,7 +50,14 @@ function App() {
   };
 
   const showModal = (id: number): void => {
-    let localPict: IImage = { id: "0", url: null, alt: "no image" };
+    let localPict: IImage = {
+      id: "0",
+      url: null,
+      alt: "no image",
+      webformatURL: "",
+      largeImageURL: "",
+      tags: [],
+    };
     for (const img of images) {
       if (img.id.toString() === id.toString()) {
         localPict = img;
@@ -70,7 +87,7 @@ function App() {
               key={el.id}
               id={el.id}
               src={el.webformatURL}
-              alt={el.tags}
+              alt={el.tags.join(" ")}
               showModal={showModal}
             />
           );
@@ -82,7 +99,7 @@ function App() {
       {isModalShow && (
         <Modal
           src={pict.largeImageURL}
-          alt={pict.tags}
+          alt={pict.tags.join(" ")}
           closeModal={closeModal}
         />
       )}
