@@ -19,10 +19,9 @@ function App() {
   const [pict, setPict] = useState<IImage>({
     id: "0",
     url: null,
-    alt: "no image",
+    tags: "no image",
     webformatURL: "",
     largeImageURL: "",
-    tags: [],
   });
   const [error, setError] = useState(null);
 
@@ -37,10 +36,9 @@ function App() {
     setPict({
       id: "0",
       url: null,
-      alt: "no image",
+      tags: "no image",
       webformatURL: "",
       largeImageURL: "",
-      tags: [],
     });
     setError(null);
   };
@@ -53,10 +51,9 @@ function App() {
     let localPict: IImage = {
       id: "0",
       url: null,
-      alt: "no image",
+      tags: "no image",
       webformatURL: "",
       largeImageURL: "",
-      tags: [],
     };
     for (const img of images) {
       if (img.id.toString() === id.toString()) {
@@ -75,6 +72,35 @@ function App() {
   // componentDidUpdate(prevProps, prevState, snapshot)
   useEffect(() => {
     console.log("Updating phase: same when componentDidUpdate runs");
+    if (searchQuery && searchQuery.length > 0) {
+      setIsLoading(true);
+      let hits: IImage[] = [
+        {
+          id: "2942477",
+          url: null,
+          tags: "forest, trail, sunbeams",
+          webformatURL:
+            "https://pixabay.com/get/g89fbc14d76cfde127ddd6275147a89ae1436a18405c818b6e2e0c841f1fe99533c0e8419e2664a943b401a96ebacb5b22e5eb2d5221c18f241aadc014aea0bbb_640.jpg",
+          largeImageURL:
+            "https://pixabay.com/get/g4c85be9a4b7fa0dc4a4b5e031c3387498dca54a504142c752b2cde5c45681a7ed672c11f182b766b08ef17ca3e7655b18f1dbf8adf2fc6fc292a7a979e2ceb31_1280.jpg",
+        },
+        {
+          id: "2942478",
+          url: null,
+          tags: "forest, trail, sunbeams",
+          webformatURL:
+            "https://pixabay.com/get/g89fbc14d76cfde127ddd6275147a89ae1436a18405c818b6e2e0c841f1fe99533c0e8419e2664a943b401a96ebacb5b22e5eb2d5221c18f241aadc014aea0bbb_640.jpg",
+          largeImageURL:
+            "https://pixabay.com/get/g4c85be9a4b7fa0dc4a4b5e031c3387498dca54a504142c752b2cde5c45681a7ed672c11f182b766b08ef17ca3e7655b18f1dbf8adf2fc6fc292a7a979e2ceb31_1280.jpg",
+        },
+      ];
+
+      let localIsLoadMore = true;
+      setImages((prevState) => [...prevState, ...hits]);
+      setIsLoadMore(localIsLoadMore);
+
+      setIsLoading(false);
+    }
   }, [searchQuery, page, perPage]);
 
   return (
@@ -87,7 +113,7 @@ function App() {
               key={el.id}
               id={el.id}
               src={el.webformatURL}
-              alt={el.tags.join(" ")}
+              alt={el.tags}
               showModal={showModal}
             />
           );
@@ -99,7 +125,7 @@ function App() {
       {isModalShow && (
         <Modal
           src={pict.largeImageURL}
-          alt={pict.tags.join(" ")}
+          alt={pict.tags}
           closeModal={closeModal}
         />
       )}

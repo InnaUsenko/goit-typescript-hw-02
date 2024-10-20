@@ -1,8 +1,7 @@
 export interface IImage {
   id: string;
   url: string | null;
-  alt: string | null;
+  tags: string;
   webformatURL: string;
   largeImageURL: string;
-  tags: { title: string }[];
 }
