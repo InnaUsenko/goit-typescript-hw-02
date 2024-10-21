@@ -78,8 +78,11 @@ function App() {
 
       fetchImages<FetchType>(searchQuery, perPage, page)
         .then((el) => {
+          if (!el) {
+            throw new Error("No data received from API");
+          }
           let localIsLoadMore = true;
-          if (el && el.totalHits <= page * perPage) {
+          if (el.totalHits <= page * perPage) {
             localIsLoadMore = false;
             window.alert(
               "We're sorry, but you've reached the end of search results."
