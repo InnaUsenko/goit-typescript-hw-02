@@ -4,7 +4,7 @@ import css from "./Modal.module.css";
 interface ModalProps {
   src: string;
   alt: string;
-  closeModal: Function;
+  closeModal: () => void;
 }
 export const Modal: FC<ModalProps> = (props) => {
   useEffect(() => {

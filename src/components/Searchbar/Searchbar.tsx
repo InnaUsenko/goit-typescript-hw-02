@@ -3,7 +3,7 @@ import { FormEvent, ChangeEvent } from "react";
 import css from "./Searchbar.module.css";
 
 interface ISearchbarProps {
-  handleSearch: Function;
+  handleSearch: (searchQuery: string) => void;
 }
 
 export const Searchbar = (props: ISearchbarProps) => {

@@ -48,7 +48,7 @@ function App() {
     setPage(page + 1);
   };
 
-  const showModal = (id: number): void => {
+  const showModal = (id: string): void => {
     let localPict: IImage = {
       id: "0",
       url: null,
@@ -57,7 +57,7 @@ function App() {
       largeImageURL: "",
     };
     for (const img of images) {
-      if (img.id.toString() === id.toString()) {
+      if (img.id.toString() === id) {
         localPict = img;
         break;
       }

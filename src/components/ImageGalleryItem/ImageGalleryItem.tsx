@@ -5,7 +5,7 @@ interface ImageGalleryItemProps {
   id: string;
   src: string;
   alt: string;
-  showModal: Function;
+  showModal: (id: string) => void;
 }
 export const ImageGalleryItem: FC<ImageGalleryItemProps> = (props) => {
   return (
