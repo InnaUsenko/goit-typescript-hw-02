@@ -57,7 +57,7 @@ function App() {
       largeImageURL: "",
     };
     for (const img of images) {
-      if (img.id.toString() === id) {
+      if (img.id.toString() === id.toString()) {
         localPict = img;
         break;
       }
