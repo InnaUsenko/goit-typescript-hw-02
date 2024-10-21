@@ -5,3 +5,5 @@ export interface IImage {
   webformatURL: string;
   largeImageURL: string;
 }
+
+export type FetchType = { hits: IImage[]; totalHits: number; total: number };

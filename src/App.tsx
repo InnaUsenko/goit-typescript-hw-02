@@ -1,5 +1,5 @@
 import "./App.css";
-import { IImage } from "./types/types";
+import { IImage, FetchType } from "./types/types";
 import { useState, useEffect } from "react";
 import { Searchbar } from "./components/Searchbar/Searchbar";
 import { ImageGallery } from "./components/ImageGallery/ImageGallery";
@@ -7,6 +7,7 @@ import { ImageGalleryItem } from "./components/ImageGalleryItem/ImageGalleryItem
 import { Button } from "./components/Button/Button";
 import { Loader } from "./components/Loader/Loader";
 import { Modal } from "./components/Modal/Modal";
+import { fetchImages } from "./services/api";
 
 function App() {
   const [images, setImages] = useState<IImage[]>([]);
@@ -74,32 +75,26 @@ function App() {
     console.log("Updating phase: same when componentDidUpdate runs");
     if (searchQuery && searchQuery.length > 0) {
       setIsLoading(true);
-      let hits: IImage[] = [
-        {
-          id: "2942477",
-          url: null,
-          tags: "forest, trail, sunbeams",
-          webformatURL:
-            "https://pixabay.com/get/g89fbc14d76cfde127ddd6275147a89ae1436a18405c818b6e2e0c841f1fe99533c0e8419e2664a943b401a96ebacb5b22e5eb2d5221c18f241aadc014aea0bbb_640.jpg",
-          largeImageURL:
-            "https://pixabay.com/get/g4c85be9a4b7fa0dc4a4b5e031c3387498dca54a504142c752b2cde5c45681a7ed672c11f182b766b08ef17ca3e7655b18f1dbf8adf2fc6fc292a7a979e2ceb31_1280.jpg",
-        },
-        {
-          id: "2942478",
-          url: null,
-          tags: "forest, trail, sunbeams",
-          webformatURL:
-            "https://pixabay.com/get/g89fbc14d76cfde127ddd6275147a89ae1436a18405c818b6e2e0c841f1fe99533c0e8419e2664a943b401a96ebacb5b22e5eb2d5221c18f241aadc014aea0bbb_640.jpg",
-          largeImageURL:
-            "https://pixabay.com/get/g4c85be9a4b7fa0dc4a4b5e031c3387498dca54a504142c752b2cde5c45681a7ed672c11f182b766b08ef17ca3e7655b18f1dbf8adf2fc6fc292a7a979e2ceb31_1280.jpg",
-        },
-      ];
 
-      let localIsLoadMore = true;
-      setImages((prevState) => [...prevState, ...hits]);
-      setIsLoadMore(localIsLoadMore);
+      fetchImages<FetchType>(searchQuery, perPage, page)
+        .then((el) => {
+          let localIsLoadMore = true;
+          if (el && el.totalHits <= page * perPage) {
+            localIsLoadMore = false;
+            window.alert(
+              "We're sorry, but you've reached the end of search results."
+            );
+          }
 
-      setIsLoading(false);
+          setImages((prevState) => [...prevState, ...el.hits]);
+          setIsLoadMore(localIsLoadMore);
+        })
+        .catch((err) => {
+          setError(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   }, [searchQuery, page, perPage]);
 
